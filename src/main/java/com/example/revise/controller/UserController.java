@@ -1,5 +1,6 @@
 package com.example.revise.controller;
 
+import com.example.revise.dto.ApiResponse;
 import com.example.revise.dto.RequestDTO;
 import com.example.revise.dto.ResponseDTO;
 import com.example.revise.entity.User;
@@ -26,19 +27,27 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseDTO> addUser(@RequestBody RequestDTO requestDTO){
+    public ApiResponse<ResponseDTO> addUser(@RequestBody RequestDTO requestDTO){
         User user = userMapper.toUser(requestDTO);
         User saved = userService.createUser(user);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(userMapper.toResponseDTO(saved));
+        ResponseDTO data = userMapper.toResponseDTO(user);
+
+        return new ApiResponse<>(200, "Them thanh cong", data);
     }
 
+//    @GetMapping("/get-all")
+//    public List<ResponseDTO> getAllUser() {
+//        List<User> users = userService.getAllUsers();
+//        return userMapper.toResponseList(users);
+//    }
+
     @GetMapping("/get-all")
-    public List<ResponseDTO> getAllUser() {
+    public ApiResponse<List<ResponseDTO>> getAllUser() {
         List<User> users = userService.getAllUsers();
-        return userMapper.toResponseList(users);
+        List<ResponseDTO> data = userMapper.toResponseList(users);
+
+        return new ApiResponse<>(200, "Lấy danh sách thành công", data);
     }
 
     @PutMapping("/update/{id}")
