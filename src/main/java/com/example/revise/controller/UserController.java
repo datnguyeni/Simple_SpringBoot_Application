@@ -55,7 +55,7 @@ public class UserController {
         List<User> users = userService.getAllUsers();
         List<ResponseDTO> data = userMapper.toResponseList(users);
 
-        return new ApiResponse<>(200, "Lấy danh sách thành công", data);
+        return new ApiResponse<List<ResponseDTO>>(200, "Lấy danh sách thành công", data);
     }
 
     @GetMapping("/my-info")
@@ -64,7 +64,7 @@ public class UserController {
         User username = userService.getMyInfo();
         ResponseDTO data = userMapper.toResponseDTO(username);
 
-        return new ApiResponse<>(200, "Lay thong tin user thanh cong", data).getData();
+        return new ApiResponse<ResponseDTO>(200, "Lay thong tin user thanh cong", data).getData();
 
     }
 

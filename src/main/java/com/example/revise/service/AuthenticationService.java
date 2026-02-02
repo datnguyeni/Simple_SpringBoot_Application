@@ -1,6 +1,8 @@
 package com.example.revise.service;
 
 import com.example.revise.entity.User;
+import com.example.revise.exception.AppException;
+import com.example.revise.exception.ErrorCode;
 import com.example.revise.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -31,16 +33,16 @@ public class AuthenticationService {
 
     public String authenticate(String username, String password) throws JOSEException {
 
-        // 1. Tìm user
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 2. Check mật khẩu
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
-        // 3. Generate JWT
+
         return jwtService.generateToken(user);
     }
 

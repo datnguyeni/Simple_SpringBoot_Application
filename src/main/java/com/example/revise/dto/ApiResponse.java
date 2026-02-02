@@ -1,22 +1,18 @@
 package com.example.revise.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-    private int status;
-    private String message;
-    private T data;
-
-    public ApiResponse(int status, String message, T data) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
-    }
-    public ApiResponse(int status, String message) {
-        this.status = status;
-        this.message = message;
-    }
+    int code;
+    String message;
+    T data;
 }

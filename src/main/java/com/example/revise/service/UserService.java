@@ -3,6 +3,8 @@ package com.example.revise.service;
 import com.example.revise.dto.RequestDTO;
 import com.example.revise.dto.ResponseDTO;
 import com.example.revise.entity.User;
+import com.example.revise.exception.AppException;
+import com.example.revise.exception.ErrorCode;
 import com.example.revise.mapper.UserMapper;
 import com.example.revise.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -41,7 +43,7 @@ public class UserService {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
