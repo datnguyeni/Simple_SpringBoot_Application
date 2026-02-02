@@ -9,4 +9,5 @@ import lombok.*;
 public class ResponseDTO {
     private Long id;
     private String username;
+    private String role;
 }

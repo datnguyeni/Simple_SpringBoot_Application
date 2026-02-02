@@ -6,10 +6,7 @@ import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,9 +21,18 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public String login(@RequestBody User user) throws JOSEException {
-        String genToken =  authenticationService.login(user.getUsername(), user.getPassword());
-        return genToken;
+        String generatedToken =  authenticationService.authenticate(user.getUsername(), user.getPassword());
+        return generatedToken;
     }
+
+    @PostMapping("/introspect")
+    public String introspect(@RequestBody String generatedToken) throws JOSEException {
+        if (!authenticationService.validateToken(generatedToken)) {
+            return "invalid token";
+        }
+        return "success";
+    }
+
 
 
 }

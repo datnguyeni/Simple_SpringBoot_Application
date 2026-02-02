@@ -29,7 +29,7 @@ public class AuthenticationService {
         this.jwtService = jwtService;
     }
 
-    public String login(String username, String password) throws JOSEException {
+    public String authenticate(String username, String password) throws JOSEException {
 
         // 1. Tìm user
         User user = userRepository.findByUsername(username)
@@ -41,8 +41,13 @@ public class AuthenticationService {
         }
 
         // 3. Generate JWT
-        return jwtService.generateToken(user.getUsername());
+        return jwtService.generateToken(user);
     }
+
+    public boolean validateToken(String token) {
+       return jwtService.validateToken(token);
+    }
+
 
 }
 
